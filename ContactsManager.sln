@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactsManagerGUI", "Conta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRUDTests", "CRUDTests\CRUDTests.csproj", "{3C47CF10-AE17-44E4-8010-149586DCBBAA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{C437148A-D67E-4A00-A33F-A5933C4B2A0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{3C47CF10-AE17-44E4-8010-149586DCBBAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C47CF10-AE17-44E4-8010-149586DCBBAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C47CF10-AE17-44E4-8010-149586DCBBAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C437148A-D67E-4A00-A33F-A5933C4B2A0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C437148A-D67E-4A00-A33F-A5933C4B2A0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C437148A-D67E-4A00-A33F-A5933C4B2A0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C437148A-D67E-4A00-A33F-A5933C4B2A0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
