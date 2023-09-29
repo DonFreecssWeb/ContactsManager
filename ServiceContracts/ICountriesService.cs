@@ -15,5 +15,11 @@ namespace ServiceContracts
         /// generate countryId) </returns>
         CountryResponse AddCountry(CountryAddRequest? countryAddRequest);
 
+        /// <summary>
+        /// Return all countries from the list
+        /// </summary>
+        /// <returns>List of CountryResponse</returns>
+        List<CountryResponse> GetAllCountries();
+
     }
 }
