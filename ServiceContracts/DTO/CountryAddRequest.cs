@@ -15,8 +15,8 @@ namespace ServiceContracts.DTO
         {
             return new Country()
             {
-                CountryName = CountryName;
-            }
+                CountryName = CountryName
+            };
         }
     }
 }
