@@ -86,9 +86,10 @@ namespace CRUDTests
             
             //Act
             CountryResponse? countryResponse = _countriesService.AddCountry(request);
-
+            List<CountryResponse> countries_from_GetAllCountries = _countriesService.GetAllCountries(); 
             //Assert
-           Assert.True(countryResponse.CountryId != Guid.Empty);
+            Assert.True(countryResponse.CountryId != Guid.Empty);
+            Assert.Contains(countryResponse,countries_from_GetAllCountries);
         }
         #endregion
 
@@ -100,9 +101,9 @@ namespace CRUDTests
             List<CountryResponse> actual_countryResponse = _countriesService.GetAllCountries();
 
             //Asert
-            Assert.Empty(actual_countryResponse);
-         
+            Assert.Empty(actual_countryResponse);         
         }
+         
         [Fact]
         //The list of countries should be empty by default (before adding any countries)
         public void GetAllCountries_AddFewCountries()
@@ -124,18 +125,11 @@ namespace CRUDTests
             List<CountryResponse> actual_countries_list_from_GetAll = _countriesService.GetAllCountries();
 
             //read each element from countries_list_from_add_country
+            //Asert   
             foreach (CountryResponse expected_country in countries_list_from_add_country)
             {
                 Assert.Contains(expected_country, actual_countries_list_from_GetAll);
             }
-
-            
-            
-
-            //Asert            
-
-          
-
         }
 
         #endregion
