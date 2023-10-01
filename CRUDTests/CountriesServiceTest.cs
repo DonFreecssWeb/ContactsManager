@@ -15,7 +15,7 @@ namespace CRUDTests
         {
             _countriesService = new CountryService();
         }
-
+        #region AddCountry
         //When CountryAddRequest is null, it should ArgumentNullException
         [Fact]
         public void AddCountry_NullCountry()
@@ -90,5 +90,54 @@ namespace CRUDTests
             //Assert
            Assert.True(countryResponse.CountryId != Guid.Empty);
         }
+        #endregion
+
+        #region GetAllCountries
+        [Fact]
+        //The list of countries should be empty by default (before adding any countries)
+        public void GetAllCountries_EmptyList()
+        {//Acts
+            List<CountryResponse> actual_countryResponse = _countriesService.GetAllCountries();
+
+            //Asert
+            Assert.Empty(actual_countryResponse);
+         
+        }
+        [Fact]
+        //The list of countries should be empty by default (before adding any countries)
+        public void GetAllCountries_AddFewCountries()
+        {
+            //Arrange
+            List<CountryAddRequest> country_request_list = new List<CountryAddRequest>()
+            {
+                new CountryAddRequest() { CountryName = "USA" },
+                new CountryAddRequest() { CountryName = "PERU" }
+            };
+
+
+            //Acts
+            List<CountryResponse> countries_list_from_add_country = new List<CountryResponse>();
+            foreach (CountryAddRequest country_request in country_request_list)
+            {
+                countries_list_from_add_country.Add(_countriesService.AddCountry(country_request));
+            }
+            List<CountryResponse> actual_countries_list_from_GetAll = _countriesService.GetAllCountries();
+
+            //read each element from countries_list_from_add_country
+            foreach (CountryResponse expected_country in countries_list_from_add_country)
+            {
+                Assert.Contains(expected_country, actual_countries_list_from_GetAll);
+            }
+
+            
+            
+
+            //Asert            
+
+          
+
+        }
+
+        #endregion
     }
 }
