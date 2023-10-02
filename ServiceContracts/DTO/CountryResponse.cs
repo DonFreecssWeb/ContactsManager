@@ -23,6 +23,10 @@ namespace ServiceContracts.DTO
             return country_to_compare.CountryName == CountryName
                 && country_to_compare.CountryId == CountryId;
         }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
 
     }
     public static class CountryExtensions
