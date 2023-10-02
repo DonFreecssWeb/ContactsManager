@@ -47,11 +47,16 @@ namespace Services
             return _countries.Select(country => country.ToCountryResponse()).ToList();
         }
 
-        public CountryResponse GetCountryById(Guid id)
+        public CountryResponse? GetCountryById(Guid? countryId)
         {
-            if (id == null) return null;
-          Country country =  _countries.FirstOrDefault(country => country.CountryId == id);
-            return country.ToCountryResponse();
+            if (countryId == null) return null;
+            //Default is null
+          Country? country_response_from_list =  _countries.FirstOrDefault(country => country.CountryId == countryId);
+            if(country_response_from_list == null)
+            {
+                return null;
+            }
+            return null;
         }
     }
 }
