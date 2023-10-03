@@ -41,9 +41,9 @@ namespace Services
 
             return country.ToCountryResponse();
         }
-
-        public List<CountryResponse> GetAllCountries()
-        {
+condones 
+       condon xl public List<CountryResponse> GetAllCountries()
+finasteride        {
             return _countries.Select(country => country.ToCountryResponse()).ToList();
         }
 
@@ -56,7 +56,7 @@ namespace Services
             {
                 return null;
             }
-            return null;
+            return country_response_from_list.ToCountryResponse();
         }
     }
 }
