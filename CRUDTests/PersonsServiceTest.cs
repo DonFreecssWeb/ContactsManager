@@ -26,11 +26,10 @@ namespace CRUDTests
             //Arrange
             PersonAddRequest? request = null;
 
-            //Act 
-            PersonResponse personResponse = _personService.AddPerson(request);
-
             //Assert
-            Assert.Throws<ArgumentNullException>(() => personResponse);
+            Assert.Throws<ArgumentNullException>(() =>            
+            _personService.AddPerson(request)
+            );
         }
 
         //When we supply a person name as null value, it should throw ArgumentException
@@ -42,13 +41,12 @@ namespace CRUDTests
             PersonAddRequest? request = new PersonAddRequest()
             {
                 PersonaName = null,
-            };
-
-            //Act 
-            PersonResponse personResponse = _personService.AddPerson(request);
+            };    
 
             //Assert
-            Assert.Throws<ArgumentException>(() => personResponse);
+            Assert.Throws<ArgumentException>(() =>
+            _personService.AddPerson(request)
+            );
         }
 
         //When we supply the proper person details, it should insert the person into the persons list

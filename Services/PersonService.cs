@@ -1,4 +1,5 @@
-﻿using ServiceContracts;
+﻿using Entities;
+using ServiceContracts;
 using ServiceContracts.DTO;
 using System;
 using System.Collections.Generic;
@@ -10,14 +11,62 @@ namespace Services
 {
     public class PersonService : IPersonService
     {
-        public PersonResponse AddPerson(PersonAddRequest request)
-        {
-            throw new NotImplementedException();
+        private readonly List<Person> _personList; 
+        private readonly ICountriesService _countriesService;
+
+
+
+        public PersonService() {
+            _personList = new List<Person>();
+            _countriesService = new CountryService();
         }
 
+        private PersonResponse ConvertPersonToPersonResponse(Person person)
+        {
+            //Convert the Person object into PersonResponse type
+            PersonResponse? personResponse = person.ToPersonResponse();
+
+            //adding country name
+            personResponse.Country = _countriesService.GetCountryById(person.CountryID)?.CountryName;
+
+            return personResponse;
+        }
+
+
+        /// <summary>
+        /// Add person to data
+        /// </summary>
+        /// <param name="personAddRequest"> person object to add</param>
+        /// <returns> Return a PersonResponse object</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public PersonResponse? AddPerson(PersonAddRequest? personAddRequest)
+        {
+            //check if personAddRequest is null
+            if (personAddRequest == null) throw new ArgumentNullException(nameof(PersonAddRequest));
+
+            //check if personName is null
+            if(string.IsNullOrEmpty(personAddRequest.PersonaName)) throw new ArgumentException("Person name can not be blank");
+
+            //Convert personAddRequest into Person type
+            Person person = personAddRequest.ToPerson();
+
+            //generate PersonID
+            person.PersonID = Guid.NewGuid();
+
+            //Add person object to persons list
+            _personList.Add(person);
+
+            //Convert the Person object into PersonResponse type
+            return ConvertPersonToPersonResponse(person);
+
+        }
+        /// <summary>
+        /// Get all persons of the list
+        /// </summary>
+        /// <returns>Return a list of persons as PersonResponse type</returns>
         public List<PersonResponse> GetAllPersons()
         {
-            throw new NotImplementedException();
+           return _personList.Select(person => ConvertPersonToPersonResponse(person)).ToList();
         }
     }
 }
