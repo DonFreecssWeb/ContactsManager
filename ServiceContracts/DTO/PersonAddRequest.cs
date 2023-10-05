@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace ServiceContracts.DTO
 {
@@ -12,8 +13,11 @@ namespace ServiceContracts.DTO
     /// Acts as a DTO for inserting a new person
     /// </summary>
     public class PersonAddRequest
-    {        
+    {
+        [Required (ErrorMessage = "The person name can't be blank")]
         public string? PersonaName { get; set; }
+        [Required (ErrorMessage = "The email can't be blank")]
+        [EmailAddress (ErrorMessage = "The email must be valid")]
         public string? Email { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public GenderOptions? Gender { get; set; }
