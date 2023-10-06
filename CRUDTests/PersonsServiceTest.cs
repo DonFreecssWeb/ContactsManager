@@ -96,7 +96,7 @@ namespace CRUDTests
 
         //If we supply a valid person id, it should return a personResponse object with details
         [Fact]
-        public void GetPersonByPersonID_ValidPersonID()
+        public void GetPersonByPersonID_WithPersonID()
         {
             //Arrange
             CountryAddRequest countryAddRequest = new CountryAddRequest()
