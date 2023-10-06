@@ -70,5 +70,10 @@ namespace Services
         {
            return _personList.Select(person => ConvertPersonToPersonResponse(person)).ToList();
         }
+
+        public PersonResponse? GetPersonByPersonID(Guid? personID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
