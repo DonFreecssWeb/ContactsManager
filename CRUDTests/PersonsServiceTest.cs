@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ServiceContracts.Enums;
+using NuGet.Frameworks;
+
 namespace CRUDTests
 {
     public class PersonsServiceTest        
@@ -126,6 +128,76 @@ namespace CRUDTests
             Assert.Equal(personResponse_from_add, personResponse_from_get);
         }
 
+        #endregion
+
+        #region GetAllPersons
+        //It Should return empty list by default
+        [Fact]
+        public void GetAllPersons_EmptyList()
+        {
+           //Act
+           List<PersonResponse> persons_from_get = _personService.GetAllPersons();
+
+            //Assert
+            Assert.Empty(persons_from_get);
+
+
+        }
+
+        //We add few persons and we should retrieve those persons as PersonResponse list from GetAllPersons()
+        [Fact]
+        public void GetAllPersons_GetProperList()
+        {
+            //Arrange
+            CountryAddRequest countryAddRequest = new CountryAddRequest()
+            {
+                CountryName = "Peru"
+            };
+            CountryResponse countryResponse = _countriesService.AddCountry(countryAddRequest);
+
+            //Act
+            List<PersonAddRequest> personsRequest_list = new List<PersonAddRequest>()
+            {
+            new PersonAddRequest()
+                        {
+                            Address = "isil",
+                            DateOfBirth = DateTime.Parse("2023-05-10"),
+                            Email = "jorge@gmail.com",
+                            Gender = GenderOptions.Male,
+                            PersonaName = "Jorge",
+                            ReceiveNewsLetters = true,
+                            CountryID = countryResponse.CountryId
+                        },
+             new PersonAddRequest()
+                        {
+                            Address = "isil",
+                            DateOfBirth = DateTime.Parse("2000-01-20"),
+                            Email = "Warren@gmail.com",
+                            Gender = GenderOptions.Male,
+                            PersonaName = "Warren",
+                            ReceiveNewsLetters = true,
+                            CountryID = countryResponse.CountryId
+                        },
+
+        };
+            
+            List<PersonResponse> personResponses_list_from_add = new List<PersonResponse>();
+
+            foreach(PersonAddRequest personRequest in personsRequest_list)
+            {
+                personResponses_list_from_add.Add(_personService.AddPerson(personRequest));
+            }
+
+            //Act
+            List<PersonResponse> personResponses_list_from_get = _personService.GetAllPersons();
+
+            //Assert
+            foreach(PersonResponse personResponse_expected in personResponses_list_from_add)
+            {
+                Assert.Contains(personResponse_expected, personResponses_list_from_get);
+            }
+             
+        }
         #endregion
     }
 }
