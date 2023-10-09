@@ -9,7 +9,7 @@ namespace Entities
     public class Person
     {
         public Guid PersonID {  get; set; }
-        public string? PersonaName { get; set; }
+        public string? PersonName { get; set; }
         public string? Email { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public string? Gender { get; set; }

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -80,6 +81,63 @@ namespace Services
             Person? person  = _personList.FirstOrDefault(person => person.PersonID == personID);
             if (person == null) return null;
             return ConvertPersonToPersonResponse(person);
+        }
+
+        public List<PersonResponse> GetFilteredPersons(string searchBy, string? searchString)
+        {
+            List<PersonResponse> getAllPersons = GetAllPersons();
+            List<PersonResponse> matchingPersons = getAllPersons;
+            if (string.IsNullOrEmpty(searchString) || string.IsNullOrEmpty(searchString))
+            {
+                return GetAllPersons();
+            }
+            switch (searchBy)
+            {
+                case nameof(Person.PersonName):
+                    {
+                        matchingPersons = getAllPersons.Where(person => (!string.IsNullOrEmpty(person.PersonName)) ?
+                        person.PersonName.Contains(searchString, StringComparison.OrdinalIgnoreCase) : true).ToList();
+                        break;
+                    }
+                case nameof(Person.Email):
+                    {
+                        matchingPersons = getAllPersons.Where(person => (!string.IsNullOrEmpty(person.Email)) ?
+                        person.Email.Contains(searchString, StringComparison.OrdinalIgnoreCase) : true).ToList();
+                        break;
+                    }
+                case nameof(Person.DateOfBirth):
+                    {
+                        matchingPersons = getAllPersons.Where(person => (person.DateOfBirth != null) ?
+                        person.DateOfBirth.Value.ToString("dd MMMM yyyy").Contains(searchString, StringComparison.OrdinalIgnoreCase) : true).ToList();
+                        break;
+                    }
+                case nameof(Person.Gender):
+                    {
+                        matchingPersons = getAllPersons.Where(person => (!string.IsNullOrEmpty(person.Gender)) ?
+                        person.Gender.Contains(searchString, StringComparison.OrdinalIgnoreCase) : true).ToList();
+                        break;
+                    }
+                case nameof(Person.CountryID):
+                    {
+                        matchingPersons = getAllPersons.Where(person => (!string.IsNullOrEmpty(person.Country)) ?
+                        person.Country.Contains(searchString, StringComparison.OrdinalIgnoreCase) : true).ToList();
+                        break;
+                    }
+                case nameof(Person.Address):
+                    {
+                        matchingPersons = getAllPersons.Where(person => (!string.IsNullOrEmpty(person.Address)) ?
+                        person.Address.Contains(searchString, StringComparison.OrdinalIgnoreCase) : true).ToList();
+                        break;
+                    }
+
+                default:
+                    {
+                        matchingPersons = getAllPersons;
+                        break;
+                    }
+            }
+            
+            return matchingPersons;
         }
     }
 }

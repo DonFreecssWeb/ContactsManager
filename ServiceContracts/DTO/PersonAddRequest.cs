@@ -15,7 +15,7 @@ namespace ServiceContracts.DTO
     public class PersonAddRequest
     {
         [Required (ErrorMessage = "The person name can't be blank")]
-        public string? PersonaName { get; set; }
+        public string? PersonName { get; set; }
         [Required (ErrorMessage = "The email can't be blank")]
         [EmailAddress (ErrorMessage = "The email must be valid")]
         public string? Email { get; set; }
@@ -33,7 +33,7 @@ namespace ServiceContracts.DTO
         {
             return new Person
             {
-                PersonaName = PersonaName,
+                PersonName = PersonName,
                 Email = Email,
                 DateOfBirth = DateOfBirth,
                 Gender = Gender.ToString(),

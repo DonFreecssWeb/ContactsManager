@@ -15,7 +15,7 @@ namespace ServiceContracts.DTO
     public class PersonResponse
     {
         public Guid PersonID { get; set; }
-        public string? PersonaName { get; set; }
+        public string? PersonName { get; set; }
         public string? Email { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public string? Gender { get; set; }
@@ -36,7 +36,7 @@ namespace ServiceContracts.DTO
             if(obj == null) return false;
             if(obj.GetType() != typeof(PersonResponse)) return false;
             PersonResponse other = (PersonResponse)obj;
-            return PersonID == other.PersonID && PersonaName == other.PersonaName
+            return PersonID == other.PersonID && PersonName == other.PersonName
                 && Email == other.Email && DateOfBirth == other.DateOfBirth && Gender == other.Gender
                 && CountryID == other.CountryID && Address == other.Address 
                 && ReceiveNewsLetters == other.ReceiveNewsLetters;
@@ -44,6 +44,11 @@ namespace ServiceContracts.DTO
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return $"ID: {PersonID} Name: {PersonName} Email: {Email}  DateOfBirth: {DateOfBirth} Gender: {Gender}" +
+                $"CountryID: {CountryID} Address: {Address} ReceibeNewLetters: {ReceiveNewsLetters}";
         }
     }
     public static class PersonExtensions
@@ -59,7 +64,7 @@ namespace ServiceContracts.DTO
             return new PersonResponse()
             {
                 PersonID = person.PersonID,
-                PersonaName = person.PersonaName,
+                PersonName = person.PersonName,
                 Email = person.Email,
                 DateOfBirth = person.DateOfBirth,
                 ReceiveNewsLetters = person.ReceiveNewsLetters,
