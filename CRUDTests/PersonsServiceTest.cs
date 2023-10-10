@@ -382,7 +382,7 @@ namespace CRUDTests
         #region GetSortedPersons
         // When we sort based in personName, it should return a list of PersonResponse in descending order
         [Fact]
-        public void GetSortedPersonse()
+        public void GetSortedPersons()
         {
             //Arrange
             CountryAddRequest countryAddRequest = new CountryAddRequest()
