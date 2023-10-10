@@ -378,5 +378,88 @@ namespace CRUDTests
             }
         }
         #endregion
+
+        #region GetSortedPersons
+        // When we sort based in personName, it should return a list of PersonResponse in descending order
+        [Fact]
+        public void GetSortedPersonse()
+        {
+            //Arrange
+            CountryAddRequest countryAddRequest = new CountryAddRequest()
+            {
+                CountryName = "Peru"
+            };
+            CountryResponse countryResponse = _countriesService.AddCountry(countryAddRequest);
+
+            //Act
+            List<PersonAddRequest> personsRequest_list = new List<PersonAddRequest>()
+            {
+            new PersonAddRequest()
+                        {
+                            Address = "isil",
+                            DateOfBirth = DateTime.Parse("2023-05-10"),
+                            Email = "Anita@gmail.com",
+                            Gender = GenderOptions.Male,
+                            PersonName = "Anita",
+                            ReceiveNewsLetters = true,
+                            CountryID = countryResponse.CountryId
+                        },
+             new PersonAddRequest()
+                        {
+                            Address = "isil",
+                            DateOfBirth = DateTime.Parse("2000-01-20"),
+                            Email = "Warren@gmail.com",
+                            Gender = GenderOptions.Male,
+                            PersonName = "Warren",
+                            ReceiveNewsLetters = true,
+                            CountryID = countryResponse.CountryId
+                        },
+                    new PersonAddRequest()
+                        {
+                            Address = "isil",
+                            DateOfBirth = DateTime.Parse("2000-01-20"),
+                            Email = "yoana@gmail.com",
+                            Gender = GenderOptions.Male,
+                            PersonName = "Yoana",
+                            ReceiveNewsLetters = true,
+                            CountryID = countryResponse.CountryId
+                        },
+
+        };
+
+            List<PersonResponse> personResponses_list_from_add = new List<PersonResponse>();
+
+            foreach (PersonAddRequest personRequest in personsRequest_list)
+            {
+
+                personResponses_list_from_add.Add(_personService.AddPerson(personRequest));
+            }
+
+            //print personResponses_list_from_add
+            _testOutputHelper.WriteLine("Expected:");
+            foreach (PersonResponse person_response_from_add in personResponses_list_from_add)
+            {
+                _testOutputHelper.WriteLine(person_response_from_add.ToString());
+
+            }
+
+            //Act
+            List<PersonResponse> personResponses_list_from_sort = _personService.GetSortedPersons(personResponses_list_from_add, nameof(Person.PersonName), SortOrderOptions.Descending);
+
+            //print personResponses_list_from_get
+            _testOutputHelper.WriteLine("Actual:");
+            foreach (PersonResponse person_response_from_get in personResponses_list_from_sort)
+            {
+                _testOutputHelper.WriteLine(person_response_from_get.ToString());
+            }
+            personResponses_list_from_add = personResponses_list_from_add.OrderByDescending(person => person.PersonName).ToList();            //Assert
+
+            //Assert
+            for (int i = 0; i < personResponses_list_from_add.Count; i++)
+            {
+                Assert.Equal(personResponses_list_from_add[i], personResponses_list_from_sort[i]);
+            }
+        }
+        #endregion
     }
 }
