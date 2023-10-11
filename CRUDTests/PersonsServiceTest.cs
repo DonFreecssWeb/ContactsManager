@@ -512,7 +512,9 @@ namespace CRUDTests
             {
                 PersonName = "Jorge",
                 CountryID = countryResponse.CountryId,
-                Email = "Jorge@gmail.com"
+                Email = "Jorge@gmail.com",
+                Address = "abc",
+                Gender = GenderOptions.Male
             };
             PersonResponse personResponse_from_add = _personService.AddPerson(personAddRequest);
 

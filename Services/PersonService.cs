@@ -173,9 +173,33 @@ namespace Services
             return sortedPersons;
         }
 
-        public PersonResponse UpdatePerson(PersonUpdateRequest? request)
+        public PersonResponse UpdatePerson(PersonUpdateRequest? personUpdateRequest)
         {
-            throw new NotImplementedException();
+            if (personUpdateRequest == null) throw new ArgumentNullException(nameof(PersonUpdateRequest));
+            //validation
+            ValidationHelper.ModelValidation(personUpdateRequest);
+
+            //get matching person object to update
+            Person? matchingPerson = _personList.FirstOrDefault(person => person.PersonID == personUpdateRequest.PersonID);
+
+            if (matchingPerson == null)
+            {
+                throw new ArgumentException("The given person id doesn't exist");
+            }
+            
+            //update all details
+            matchingPerson.PersonName = personUpdateRequest.PersonName;
+            matchingPerson.Email = personUpdateRequest.Email;
+            matchingPerson.Address = personUpdateRequest.Address;
+            matchingPerson.Gender = personUpdateRequest.Gender.ToString();
+            matchingPerson.ReceiveNewsLetters = personUpdateRequest.ReceiveNewsLetters;
+            matchingPerson.CountryID = personUpdateRequest.CountryID;
+            matchingPerson.DateOfBirth = personUpdateRequest.DateOfBirth;
+            matchingPerson.PersonID = personUpdateRequest.PersonID;
+
+            return matchingPerson.ToPersonResponse();           
+           
+            
         }
     }
 }
