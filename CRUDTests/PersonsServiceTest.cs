@@ -12,7 +12,7 @@ using Entities;
 
 namespace CRUDTests
 {
-    public class PersonsServiceTest        
+    public class PersonsServiceTest
     {
         private readonly IPersonService _personService;
         private readonly ICountriesService _countriesService;
@@ -34,7 +34,7 @@ namespace CRUDTests
             PersonAddRequest? request = null;
 
             //Assert
-            Assert.Throws<ArgumentNullException>(() =>            
+            Assert.Throws<ArgumentNullException>(() =>
             _personService.AddPerson(request)
             );
         }
@@ -48,7 +48,7 @@ namespace CRUDTests
             PersonAddRequest? request = new PersonAddRequest()
             {
                 PersonName = null,
-            };    
+            };
 
             //Assert
             Assert.Throws<ArgumentException>(() =>
@@ -61,23 +61,23 @@ namespace CRUDTests
         [Fact]
         public void AddPerson_ProperPersonDetails()
         {
-            
+
             //Arrange
             PersonAddRequest? request = new PersonAddRequest()
             {
                 PersonName = "Jorge",
-                Address ="La Molina",
-                DateOfBirth =  DateTime.Parse("25-05-1985"),
+                Address = "La Molina",
+                DateOfBirth = DateTime.Parse("25-05-1985"),
                 Email = "jorge@gmail.com",
                 Gender = GenderOptions.Male,
                 CountryID = Guid.NewGuid(),
                 ReceiveNewsLetters = true,
-                
+
             };
 
             //Act 
             PersonResponse person_response_from_addPerson = _personService.AddPerson(request);
-            List<PersonResponse> person_response_list_from_Get   = _personService.GetAllPersons();
+            List<PersonResponse> person_response_list_from_Get = _personService.GetAllPersons();
 
             //Assert
             Assert.True(person_response_from_addPerson.PersonID != Guid.Empty);
@@ -93,7 +93,7 @@ namespace CRUDTests
             Guid? personID = null;
 
             //Act
-            PersonResponse? personResponse_fromm_Get =  _personService.GetPersonByPersonID(personID);
+            PersonResponse? personResponse_fromm_Get = _personService.GetPersonByPersonID(personID);
 
             //Assert
             Assert.Null(personResponse_fromm_Get);
@@ -124,9 +124,9 @@ namespace CRUDTests
 
             PersonResponse personResponse_from_add = _personService.AddPerson(personRequest);
 
-            
-             PersonResponse? personResponse_from_get = _personService.GetPersonByPersonID(personResponse_from_add.PersonID);
-            
+
+            PersonResponse? personResponse_from_get = _personService.GetPersonByPersonID(personResponse_from_add.PersonID);
+
             //Assert
             Assert.Equal(personResponse_from_add, personResponse_from_get);
         }
@@ -138,8 +138,8 @@ namespace CRUDTests
         [Fact]
         public void GetAllPersons_EmptyList()
         {
-           //Act
-           List<PersonResponse> persons_from_get = _personService.GetAllPersons();
+            //Act
+            List<PersonResponse> persons_from_get = _personService.GetAllPersons();
 
             //Assert
             Assert.Empty(persons_from_get);
@@ -183,12 +183,12 @@ namespace CRUDTests
                         },
 
         };
-            
-            List<PersonResponse> personResponses_list_from_add = new List<PersonResponse>();       
+
+            List<PersonResponse> personResponses_list_from_add = new List<PersonResponse>();
 
             foreach (PersonAddRequest personRequest in personsRequest_list)
             {
-              
+
                 personResponses_list_from_add.Add(_personService.AddPerson(personRequest));
             }
 
@@ -197,7 +197,7 @@ namespace CRUDTests
             foreach (PersonResponse person_response_from_add in personResponses_list_from_add)
             {
                 _testOutputHelper.WriteLine(person_response_from_add.ToString());
-                
+
             }
 
 
@@ -214,10 +214,10 @@ namespace CRUDTests
             //Assert
             foreach (PersonResponse personResponse_expected in personResponses_list_from_add)
             {
-       
+
                 Assert.Contains(personResponse_expected, personResponses_list_from_get);
             }
-             
+
         }
         #endregion
 
@@ -276,8 +276,8 @@ namespace CRUDTests
             }
 
             //Act
-            List<PersonResponse> personResponses_list_from_search = _personService.GetFilteredPersons(nameof(Person.PersonName),"");
-                      
+            List<PersonResponse> personResponses_list_from_search = _personService.GetFilteredPersons(nameof(Person.PersonName), "");
+
             //print personResponses_list_from_get
             _testOutputHelper.WriteLine("Actual:");
             foreach (PersonResponse person_response_from_get in personResponses_list_from_search)
@@ -367,14 +367,14 @@ namespace CRUDTests
             //Assert
             foreach (PersonResponse personResponse_from_add in personResponses_list_from_add)
             {
-                if(personResponse_from_add.PersonName !=null)
+                if (personResponse_from_add.PersonName != null)
                 {
                     if (personResponse_from_add.PersonName.Contains("na", StringComparison.OrdinalIgnoreCase))
                     {
                         Assert.Contains(personResponse_from_add, personResponses_list_from_search);
                     }
-                }              
-                
+                }
+
             }
         }
         #endregion
@@ -461,5 +461,108 @@ namespace CRUDTests
             }
         }
         #endregion
+
+        #region UpdatePerson
+        //If we supply null as PersonUpdateRequest, it should throw ArgumentNullException
+        [Fact]
+        public void UpdatePerson_NullPerson()
+        {
+            //Arrange           
+
+            PersonUpdateRequest? personUpdateRequest = null;
+
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => 
+            
+            //Act
+            _personService.UpdatePerson(personUpdateRequest)
+            );            
+        }
+
+        //If we supply invalid person id, it should throw ArgumentException
+        [Fact]
+        public void UpdatePerson_InvalidPersonID() {
+
+            //Arrange
+
+            PersonUpdateRequest personUpdateRequest = new PersonUpdateRequest()
+            {
+                PersonID = Guid.NewGuid()
+            };
+
+            //Assert
+            Assert.Throws<ArgumentException>(() =>
+            {
+               //Act
+                _personService.UpdatePerson(personUpdateRequest);
+            });
+        }
+
+        //When person name is null, it should throw ArgumentNullException
+        [Fact]
+        public void UpdatePerson_NullPersonName()
+        {
+            //Arrange
+            CountryAddRequest countryAddRequest = new CountryAddRequest()
+            {
+                CountryName = "Peru"
+            };
+            CountryResponse countryResponse = _countriesService.AddCountry(countryAddRequest);
+            PersonAddRequest personAddRequest = new PersonAddRequest()
+            {
+                PersonName = "Jorge",
+                CountryID = countryResponse.CountryId,
+                Email = "Jorge@gmail.com"
+            };
+            PersonResponse personResponse_from_add = _personService.AddPerson(personAddRequest);
+
+            PersonUpdateRequest personUpdateRequest = personResponse_from_add.ToPersonUpdateRequest();
+
+            personUpdateRequest.PersonName = null;
+
+            //Assert
+            Assert.Throws<ArgumentException>(() =>
+            {
+                //Act
+                _personService.UpdatePerson(personUpdateRequest);
+            });
+        }
+
+        //First add a new person and try to update the person name and email
+        [Fact]
+        public void UpdatePerson_PersonFullDetailsUpdation()
+        {
+            //Arrange
+            CountryAddRequest countryAddRequest = new CountryAddRequest()
+            {
+                CountryName = "Peru"
+            };
+            CountryResponse countryResponse = _countriesService.AddCountry(countryAddRequest);
+            PersonAddRequest personAddRequest = new PersonAddRequest()
+            {
+                PersonName = "Jorge",
+                Email = "Jorge@gmail.com",
+                Address = "abc",
+                DateOfBirth = DateTime.Parse("1987-05-05"),
+                Gender = GenderOptions.Male,
+                ReceiveNewsLetters = true,
+                CountryID = countryResponse.CountryId              
+            };
+            PersonResponse personResponse_from_add = _personService.AddPerson(personAddRequest);
+
+            PersonUpdateRequest personUpdateRequest = personResponse_from_add.ToPersonUpdateRequest();
+            personUpdateRequest.PersonName = "Warren";
+            personUpdateRequest.Email = "Warren@gmail.com";
+ 
+
+            //Act
+            PersonResponse person_response_from_update = _personService.UpdatePerson(personUpdateRequest);
+
+            PersonResponse? person_response_from_get = _personService.GetPersonByPersonID(person_response_from_update.PersonID);
+            //Assert
+            Assert.Equal(person_response_from_get, person_response_from_update);
+            
+        }
     }
 }
+#endregion
