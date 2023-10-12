@@ -197,9 +197,23 @@ namespace Services
             matchingPerson.DateOfBirth = personUpdateRequest.DateOfBirth;
             matchingPerson.PersonID = personUpdateRequest.PersonID;
 
-            return matchingPerson.ToPersonResponse();           
-           
+            return matchingPerson.ToPersonResponse();                      
             
+        }
+        public bool DeletePerson(Guid? personID)
+        {
+
+            if (personID == null)
+                throw new ArgumentNullException(nameof(personID));
+
+            Person? matchingPerson =  _personList.FirstOrDefault(person => person.PersonID == personID);
+
+            if (matchingPerson == null) 
+                return false;
+
+            _personList.Remove(matchingPerson);
+            return true;           
+
         }
     }
 }

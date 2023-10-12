@@ -565,6 +565,76 @@ namespace CRUDTests
             Assert.Equal(person_response_from_get, person_response_from_update);
             
         }
+
+        #endregion
+
+        #region DeletePerson
+        //If we supply an valid person id, it should return true
+        [Fact]
+       public void DeletePerson_ValidPersonID()
+        {
+            //Arrange
+            CountryAddRequest countryAddRequest = new CountryAddRequest()
+            {
+                CountryName = "Peru"
+            };
+            CountryResponse countryResponse = _countriesService.AddCountry(countryAddRequest);
+            PersonAddRequest personAddRequest = new PersonAddRequest()
+            {
+                PersonName = "Jorge",
+                Email = "jorge@gmail.com",
+                DateOfBirth = DateTime.Parse("2000-05-15"),
+                Address = "abc",
+                Gender = GenderOptions.Male,
+                ReceiveNewsLetters = true,
+                CountryID = countryResponse.CountryId                              
+            };
+            PersonResponse personResponse_from_add = _personService.AddPerson(personAddRequest);
+
+            //Act
+            _testOutputHelper.WriteLine("Persons before to delete:");
+            _testOutputHelper.WriteLine(_personService.GetAllPersons().Count.ToString());
+            bool isDeleted = _personService.DeletePerson(personResponse_from_add.PersonID);
+            _testOutputHelper.WriteLine("Persons after to delete:");
+            _testOutputHelper.WriteLine(_personService.GetAllPersons().Count.ToString());
+
+            //Assert
+            Assert.True(isDeleted);    
+        }
+
+        //If we supply an valid person id, it should return true
+        [Fact]
+        public void DeletePerson_InvalidPersonID()
+        {
+            //Arrange
+            CountryAddRequest countryAddRequest = new CountryAddRequest()
+            {
+                CountryName = "Peru"
+            };
+            CountryResponse countryResponse = _countriesService.AddCountry(countryAddRequest);
+            PersonAddRequest personAddRequest = new PersonAddRequest()
+            {
+                PersonName = "Jorge",
+                Email = "jorge@gmail.com",
+                DateOfBirth = DateTime.Parse("2000-05-15"),
+                Address = "abc",
+                Gender = GenderOptions.Male,
+                ReceiveNewsLetters = true,
+                CountryID = countryResponse.CountryId
+            };
+            PersonResponse personResponse_from_add = _personService.AddPerson(personAddRequest);
+
+            Guid newPersonID = Guid.NewGuid();
+            //Act
+            _testOutputHelper.WriteLine("Persons before to delete:");
+            _testOutputHelper.WriteLine(_personService.GetAllPersons().Count.ToString());
+            bool isDeleted = _personService.DeletePerson(newPersonID);
+            _testOutputHelper.WriteLine("Persons after to delete:");
+            _testOutputHelper.WriteLine(_personService.GetAllPersons().Count.ToString());
+            //Assert
+            Assert.False(isDeleted);
+        }
+        #endregion
+
     }
 }
-#endregion
