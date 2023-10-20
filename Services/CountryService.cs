@@ -7,9 +7,39 @@ namespace Services
     public class CountryService : ICountriesService
     {
         private readonly List<Country> _countries;
-        public CountryService()
+        public CountryService(bool initialize = true)
         {
             _countries = new List<Country>();
+            if(initialize)
+            {
+                _countries.AddRange(new List<Country>() {
+                    new Country()
+                    {
+                        CountryId = Guid.Parse("E6E22042-8354-41CF-8C07-14F223D565C9"),
+                        CountryName = "USA"
+                    },
+                    new Country()
+                    {
+                        CountryId = Guid.Parse("8B5747AB-2E42-41E9-B511-5A14FE8436DF"),
+                        CountryName = "PERU"
+                    },
+                    new Country()
+                    {
+                        CountryId = Guid.Parse("8B5540C6-B134-4096-B4CE-9E9232A42068"),
+                        CountryName = "AUSTRALIA"
+                    },
+                    new Country()
+                    {
+                        CountryId = Guid.Parse("96F38C15-2146-489D-B46D-18F48EEE770C"),
+                        CountryName = "CHINA"
+                    },
+                    new Country()
+                    {
+                        CountryId = Guid.Parse("B42D189A-AEE3-4541-BB84-4409B1398BA5"),
+                        CountryName = "ECUADOR"
+                    }
+                });
+            }
         }
         public CountryResponse AddCountry(CountryAddRequest? countryAddRequest)
         {

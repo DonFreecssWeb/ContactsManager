@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Numerics;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,12 +18,71 @@ namespace Services
     {
         private readonly List<Person> _personList; 
         private readonly ICountriesService _countriesService;
-
-
-
-        public PersonService() {
+        public PersonService(bool initialize = true) {
+           
             _personList = new List<Person>();
             _countriesService = new CountryService();
+           
+            if(initialize)
+            {
+                _personList.Add(new Person()
+                {
+                    PersonID = Guid.Parse("603D0303-A54F-4F14-9838-5615ED9BE310"),
+                    PersonName = "Jefferson",
+                    Email = "jwaggett0@who.int",
+                    DateOfBirth = DateTime.Parse("1996-11-22"),
+                    Gender = "Male",
+                    Address = "57 Fairfield Plaza",
+                    ReceiveNewsLetters = true,
+                    CountryID = Guid.Parse("E6E22042-8354-41CF-8C07-14F223D565C9")
+                });
+                _personList.Add(new Person()
+                {
+                    PersonID = Guid.Parse("C825D6F0-8971-4A17-BED7-E9437D8B3C4E"),
+                    PersonName = "Brendon",
+                    Email = "basson1@businesswire.com",
+                    DateOfBirth = DateTime.Parse("1992-01-28"),
+                    Gender = "Male",
+                    Address = "0 Trailsway Point",
+                    ReceiveNewsLetters = false,
+                    CountryID = Guid.Parse("8B5747AB-2E42-41E9-B511-5A14FE8436DF")
+                });
+                _personList.Add(new Person()
+                {
+                    PersonID = Guid.Parse("{C7D9F733-5558-4055-A7A3-7F67409EDDA1}"),
+                    PersonName = "Lenard",
+                    Email = "lfitzsimmons2@xing.com",
+                    DateOfBirth = DateTime.Parse("1999-08-20"),
+                    Gender = "Male",
+                    Address = "348 Mandrake Park",
+                    ReceiveNewsLetters = false,
+                    CountryID = Guid.Parse("8B5540C6-B134-4096-B4CE-9E9232A42068")
+                });
+                _personList.Add(new Person()
+                {
+                    PersonID = Guid.Parse("8D3AC826-C908-4BDE-89CC-C807F6517EB0"),
+                    PersonName = "Trista",
+                    Email = "tbandt3@cnn.com",
+                    DateOfBirth = DateTime.Parse("1995-09-26"),
+                    Gender = "Female",
+                    Address = "6466 Westport Place",
+                    ReceiveNewsLetters = false,
+                    CountryID = Guid.Parse("8B5540C6-B134-4096-B4CE-9E9232A42068")
+                });
+                _personList.Add(new Person()
+                {
+                    PersonID = Guid.Parse("{14103039-D7CA-4F16-8034-A22939FCC1D1}"),
+                    PersonName = "Woodie",
+                    Email = "wellgood4@sciencedirect.com",
+                    DateOfBirth = DateTime.Parse("1996-03-18"),
+                    Gender = "Female",
+                    Address = "48580 Norway Maple Place",
+                    ReceiveNewsLetters = true,
+                    CountryID = Guid.Parse("96F38C15-2146-489D-B46D-18F48EEE770C")
+                });
+
+            }     
+
         }
 
         private PersonResponse ConvertPersonToPersonResponse(Person person)

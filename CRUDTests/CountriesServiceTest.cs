@@ -13,7 +13,7 @@ namespace CRUDTests
 
         public CountriesServiceTest()
         {
-            _countriesService = new CountryService();
+            _countriesService = new CountryService(false);
         }
         #region AddCountry
         //When CountryAddRequest is null, it should ArgumentNullException
