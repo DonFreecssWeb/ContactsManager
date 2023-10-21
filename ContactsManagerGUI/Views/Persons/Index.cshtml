@@ -39,7 +39,7 @@
                     
                 }
                 else if (ViewBag.currentSortBy == nameof(PersonResponse.PersonName) && 
-                ViewBag.currentSortOrder == SortOrderOptions.Ascending)
+                ViewBag.currentSortOrder == SortOrderOptions.Descending)
                 {
                     <th><a href="~/persons/index?searchBy=@ViewBag.currentSearchBy&searchString=@ViewBag.currentSearchString&sortBy=@nameof(PersonResponse.PersonName)&sortOrder=@SortOrderOptions.Ascending.ToString()">Person name <i class="fa-solid fa-sort-down"></i></a> </th>
                 }else{

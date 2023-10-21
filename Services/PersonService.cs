@@ -257,7 +257,7 @@ namespace Services
             matchingPerson.DateOfBirth = personUpdateRequest.DateOfBirth;
             matchingPerson.PersonID = personUpdateRequest.PersonID;
 
-            return matchingPerson.ToPersonResponse();                      
+            return ConvertPersonToPersonResponse(matchingPerson);
             
         }
         public bool DeletePerson(Guid? personID)
