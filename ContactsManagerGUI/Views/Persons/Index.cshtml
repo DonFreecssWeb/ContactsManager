@@ -3,11 +3,49 @@
     ViewBag.Title = "Persons";
 }
 <h1>Persons</h1>
+<form action="~/persons/index" method="get"> 
+<div class="box flex">
+    <div class="flex-1">
+        <select class="form-input" name="searchBy" >
+            @foreach (var field in ViewBag.SearchFields)
+            {
+                    if(ViewBag.currentSearchBy == field.Key )
+                    {
+                        <option value="@field.Key" selected>@field.Value</option>
+                    }
+                    else{
+                        <option value="@field.Key">@field.Value</option>                        
+                    }
+            }
+        </select>
+    </div>
+    <div class="flex-1">
+        <input class="form-input" type="search" name="searchString" value="@ViewBag.currentSearchString" placeholder="search"  />
+       
+    </div>
+    <div class="flex-1">
+       <button class="button button-blue-back">Search</button>
+       <a class="link-hover"> Clear all</a>
+    </div>
+</div>
 
 <table class="table w-100 mt">
     <thead>
         <tr>
-            <th> Person name</th>
+                @if (ViewBag.currentSortBy == nameof(PersonResponse.PersonName) &&
+                ViewBag.currentSortOrder == SortOrderOptions.Ascending)
+                {
+                    <th><a href="~/persons/index?searchBy=@ViewBag.currentSearchBy&searchString=@ViewBag.currentSearchString&sortBy=@nameof(PersonResponse.PersonName)&sortOrder=@SortOrderOptions.Descending.ToString()">Person name <i class="fa-solid fa-sort-up"></i></a> </th>
+                    
+                }
+                else if (ViewBag.currentSortBy == nameof(PersonResponse.PersonName) && 
+                ViewBag.currentSortOrder == SortOrderOptions.Ascending)
+                {
+                    <th><a href="~/persons/index?searchBy=@ViewBag.currentSearchBy&searchString=@ViewBag.currentSearchString&sortBy=@nameof(PersonResponse.PersonName)&sortOrder=@SortOrderOptions.Ascending.ToString()">Person name <i class="fa-solid fa-sort-down"></i></a> </th>
+                }else{
+                    <th><a href="~/persons/index?searchBy=@ViewBag.currentSearchBy&searchString=@ViewBag.currentSearchString&sortBy=@nameof(PersonResponse.PersonName)&sortOrder=@SortOrderOptions.Ascending.ToString()">Person name </a> </th>
+                }
+
             <th> Email</th>
             <th> Date of birth</th>
             <th> Age</th>
@@ -33,3 +71,5 @@
         }
     </tbody>
 </table>
+
+</form>
